@@ -1,0 +1,7 @@
+ Simulation demonstrates the instruction flow across all 4 pipeline stages.
+ Each stage processes a different instruction per cycle after pipeline fill-up.
+ Example timeline:
+ Cycle 1: IF(fetch ADD), ...
+ Cycle 2: ID(ADD), IF(fetch SUB)
+ Cycle 3: EX(ADD), ID(SUB), IF(fetch LOAD)
+ Cycle 4: MEM(ADD), EX(SUB), ID(LOAD), IF(fetch ...)
