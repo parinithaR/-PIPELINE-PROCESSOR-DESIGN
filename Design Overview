@@ -1,0 +1,6 @@
+ The processor consists of the following pipeline stages:
+ 1. IF (Instruction Fetch)
+ 2. ID (Instruction Decode)
+ 3. EX (Execute)
+ 4. MEM (Memory Access)
+ Supported instructions:- ADD R1, R2, R3- SUB R1, R2, R3- LOAD R1, [R2]
