@@ -1,0 +1,30 @@
+ module pipelined_processor (
+    input clk, reset
+ );
+ reg [15:0] instr_mem [0:15];
+ reg [7:0] data_mem [0:15];
+ reg [7:0] reg_file [0:7];
+ // Pipeline registers
+ reg [15:0] IF_ID, ID_EX, EX_MEM;
+ reg [7:0] PC;
+ always @(posedge clk or posedge reset) begin
+    if (reset) begin
+        PC <= 0;
+    end else begin
+        // IF Stage
+        IF_ID <= instr_mem[PC];
+        PC <= PC + 1;
+        // ID Stage (decode IF_ID into ID_EX)
+        ID_EX <= IF_ID;  // Simplified
+        // EX Stage (execute ID_EX)
+        EX_MEM <= ID_EX;  // Simplified
+        // MEM Stage (access memory)
+        if (EX_MEM[15:12] == 4'b0011)  // LOAD opcode
+            reg_file[EX_MEM[11:8]] <= data_mem[reg_file[EX_MEM[7:4]]];
+        else if (EX_MEM[15:12] == 4'b0001) // ADD
+            reg_file[EX_MEM[11:8]] <= reg_file[EX_MEM[7:4]] + reg_file[EX_MEM[3:0]];
+        else if (EX_MEM[15:12] == 4'b0010) // SUB
+            reg_file[EX_MEM[11:8]] <= reg_file[EX_MEM[7:4]] - reg_file[EX_MEM[3:0]];
+    end
+end
+ endmodule
